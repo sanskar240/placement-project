@@ -30,4 +30,11 @@ model FAQ{
   authorname String
 }
         
+model Application{
+  id Int @id @default(autoincrement())
+  name String
+  gpa Int
+  phonenumber Int
+  about String
+}
 
