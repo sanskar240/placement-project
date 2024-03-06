@@ -27,19 +27,20 @@ app.post('/offers', async (req, res) => {
     try {
         const offer = await prisma.listing.create({
             data: {
-                name: req.body.name,
-                description: req.body.description,
-                email: req.body.email,
-                cutoff: req.body.cutoff
+                name: "Infosys",
+                description: "Need a backend engineer",
+                email: "recruiters@gmail.com",
+                cutoff: parseInt(req.body.cutoff) // Convert cutoff to an integer
             }
         });
 
-        res.status(201).json(offer);
+        res.status(200).json(offer);
     } catch (error) {
-        console.error('Error creating offer:', error);
-        res.status(500).json({ message: 'Could not create offer' });
+        console.error("Error creating offer", error);
+        res.status(500).json({ message: "Could not post offer" });
     }
 });
+
 
 app.get('/offers', async (req, res) => {
     try {
@@ -136,13 +137,13 @@ app.delete('/faqs/:id', async (req, res) => {
 app.post('/applications', async (req, res) => {
     try {
     
-        const { name, gpa, phonenumber, about } = req.body;
+        // const { name, gpa, phonenumber, about } = req.body;
         const application = await prisma.application.create({
             data: {
-                name,
-                gpa,
-                phonenumber,
-                about
+                name:req.body.name,
+                gpa:parseInt(req.body.gpa),
+                phonenumber:parseInt(req.body.phonenumber),
+                about:req.body.about
             }
         });
 
@@ -153,13 +154,14 @@ app.post('/applications', async (req, res) => {
     }
 });
 
+app.get('/applications',async(req,res)=>{
+    try{
+        const applications = await prisma.application.findMany();
+        res.status(200).json(applications);
+    }catch(error){
+        console.error("Error getting application");
+        res.status(500).json({ message: "Could not get application"});
+    }
+});
 
-
-
-const PORT = process.env.PORT || 5011;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-const PORT = process.env.PORT || 6000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
